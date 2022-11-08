@@ -1,44 +1,31 @@
+import tasks.Task;
+import tasks.TaskTimeComparator;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Calendar {
-    private final LinkedHashMap<Integer, Task> tasks = new LinkedHashMap<>();
+    private final Map<Integer, Task> tasks = new HashMap<>();
 
-    public Calendar() {
-    }
-
-    public void addTask(String title,
-                        String description,
-                        Task.Type type,
-                        Task.Regularity regularity,
-                        LocalDateTime dateTime) {
-
-        Task task = new Task(title, description, type, regularity, dateTime);
-        tasks.put(task.getId(), task);
-    }
-
-    public void removeTask(String title) {
+    public void removeTask(int id) {
         for (Map.Entry<Integer, Task> entry : tasks.entrySet()) {
-            if (entry.getValue().getTitle().equals(title)) {
+            if (entry.getValue().getId() == id) {
                 System.out.println("Задача удалена.");
-                tasks.remove(entry.getKey());
+                tasks.remove(id);
                 return;
             }
         }
     }
 
-    public void printTasksForTheDay(LocalDate date) {
-        for (Map.Entry<Integer, Task> entry : tasks.entrySet()) {
-            LocalDate ld = LocalDate.of(entry.getValue().getDateTime().getYear(),
-                    entry.getValue().getDateTime().getMonth(),
-                    entry.getValue().getDateTime().getDayOfMonth());
-            if (ld.equals(date)) {
-                System.out.println(entry.getValue());
+    public Collection<Task> getTasksForTheDay(LocalDate date) {
+        Set<Task> tasksForDay = new TreeSet<>(new TaskTimeComparator());
+        for (Task task : tasks.values()) {
+            if (task.appearsIn(date)) {
+                tasksForDay.add(task);
             }
         }
+        return tasksForDay;
     }
 
     public static void manageTasks() {
