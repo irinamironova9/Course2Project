@@ -76,10 +76,9 @@ public abstract class Task {
 
     @Override
     public String toString() {
-        return String.format("Задача: %s\n" +
+        return String.format("задача: %s\n" +
                         "Описание: %s\n" +
                         "Тип: %s\n" +
-                        "Повторяемость: %s\n" +
                         "Дата и время: %s\n" +
                         "ID: %s\n",
                 title,
@@ -94,11 +93,11 @@ public abstract class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return Objects.equals(title, task.title);
+        return Objects.equals(title, task.title) && Objects.equals(description, task.description) && type == task.type && Objects.equals(dateTime, task.dateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title);
+        return Objects.hash(title, description, type, dateTime);
     }
 }

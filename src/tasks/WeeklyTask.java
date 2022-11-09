@@ -42,4 +42,11 @@ public class WeeklyTask extends Task {
     public boolean appearsIn(LocalDate date) {
         return updateNextDateTime().toLocalDate().equals(date);
     }
+
+    @Override
+    public String toString() {
+        return "Еженедельная " + super.toString() +
+                "Следующая дата выполнения: " +
+                updateNextDateTime();
+    }
 }

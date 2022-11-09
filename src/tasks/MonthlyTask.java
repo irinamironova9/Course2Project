@@ -42,4 +42,11 @@ public class MonthlyTask extends Task {
     public boolean appearsIn(LocalDate date) {
         return updateNextDateTime().toLocalDate().equals(date);
     }
+
+    @Override
+    public String toString() {
+        return "Ежемесячная " + super.toString() +
+                "Следующая дата выполнения: " +
+                updateNextDateTime();
+    }
 }

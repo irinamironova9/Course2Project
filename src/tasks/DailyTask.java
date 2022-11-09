@@ -45,4 +45,11 @@ public class DailyTask extends Task {
     public boolean appearsIn(LocalDate date) {
         return updateNextDateTime().toLocalDate().equals(date);
     }
+
+    @Override
+    public String toString() {
+        return "Ежедневная " + super.toString() +
+                "Следующая дата выполнения: " +
+                updateNextDateTime();
+    }
 }
