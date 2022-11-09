@@ -43,7 +43,10 @@ public class DailyTask extends Task {
 
     @Override
     public boolean appearsIn(LocalDate date) {
-        return updateNextDateTime().toLocalDate().equals(date);
+        nextDateTime = updateNextDateTime();
+
+        return nextDateTime.toLocalDate().equals(date) ||
+                nextDateTime.toLocalDate().isAfter(LocalDate.now());
     }
 
     @Override

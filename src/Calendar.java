@@ -52,6 +52,8 @@ public class Calendar {
                     "Попробуйте снова.");
             taskName = inputTaskName(scanner);
         }
+        System.out.println("Название: " + taskName);
+
 
         String taskDescription = inputTaskDescription(scanner);
         while (taskDescription == null || taskDescription.isBlank()) {
@@ -59,6 +61,8 @@ public class Calendar {
                     "Попробуйте снова.");
             taskDescription = inputTaskDescription(scanner);
         }
+        System.out.println("Описание: " + taskDescription);
+
 
         Task.Type taskType = inputTaskType(scanner);
         while (taskType == null) {
@@ -67,6 +71,7 @@ public class Calendar {
             taskType = inputTaskType(scanner);
         }
 
+
         LocalDate date = inputDate(scanner);
         while (date == null || date.isBefore(LocalDate.now())) {
             System.out.println("Некорректно введена дата или " +
@@ -74,16 +79,20 @@ public class Calendar {
                     "Попробуйте снова.");
             date = inputDate(scanner);
         }
+        System.out.println("Дата: " + date);
+
 
         LocalTime time = inputTime(scanner);
-        while (time == null || time.isBefore(LocalTime.now())) {
-            System.out.println("Некорректно введено время или " +
-                    "указанное время уже прошло! " +
+        while (time == null) {
+            System.out.println("Некорректно введено время! " +
                     "Попробуйте снова.");
             time = inputTime(scanner);
         }
+        System.out.println("Время: " + time);
+
 
         LocalDateTime taskDateTime = LocalDateTime.of(date, time);
+
 
         int regularity = inputRegularity(scanner);
         while (regularity < 1 || regularity > 5) {
@@ -92,105 +101,85 @@ public class Calendar {
             regularity = inputRegularity(scanner);
         }
 
+
         switch (regularity) {
             case 1:
-                try {
-                    Task task1 = new OneTimeTask(taskName,
-                            taskDescription,
-                            taskType,
-                            taskDateTime);
+                Task task1 = new OneTimeTask(taskName,
+                        taskDescription,
+                        taskType,
+                        taskDateTime);
+                if (tasks.containsValue(task1)) {
+                    System.out.println("Эта задача уже добавлена.");
+                } else {
                     this.tasks.put(task1.getId(), task1);
                     System.out.println("Задача успешно добавлена:");
                     System.out.println(task1);
-                    return;
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Что-то было введено неправильно! " +
-                            "Попробуйте снова.");
-                    return;
                 }
+                return;
             case 2:
-                try {
-                    Task task2 = new DailyTask(taskName,
-                            taskDescription,
-                            taskType,
-                            taskDateTime);
+                Task task2 = new DailyTask(taskName,
+                        taskDescription,
+                        taskType,
+                        taskDateTime);
+                if (tasks.containsValue(task2)) {
+                    System.out.println("Эта задача уже добавлена.");
+                } else {
                     this.tasks.put(task2.getId(), task2);
                     System.out.println("Задача успешно добавлена:");
                     System.out.println(task2);
-                    return;
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Что-то было введено неправильно! " +
-                            "Попробуйте снова.");
-                    return;
                 }
+                return;
             case 3:
-                try {
-                    Task task3 = new WeeklyTask(taskName,
-                            taskDescription,
-                            taskType,
-                            taskDateTime);
+                Task task3 = new WeeklyTask(taskName,
+                        taskDescription,
+                        taskType,
+                        taskDateTime);
+                if (tasks.containsValue(task3)) {
+                    System.out.println("Эта задача уже добавлена.");
+                } else {
                     this.tasks.put(task3.getId(), task3);
                     System.out.println("Задача успешно добавлена:");
                     System.out.println(task3);
-                    return;
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Что-то было введено неправильно! " +
-                            "Попробуйте снова.");
-                    return;
                 }
+                return;
             case 4:
-                try {
-                    Task task4 = new MonthlyTask(taskName,
-                            taskDescription,
-                            taskType,
-                            taskDateTime);
+                Task task4 = new MonthlyTask(taskName,
+                        taskDescription,
+                        taskType,
+                        taskDateTime);
+                if (tasks.containsValue(task4)) {
+                    System.out.println("Эта задача уже добавлена.");
+                } else {
                     this.tasks.put(task4.getId(), task4);
                     System.out.println("Задача успешно добавлена:");
                     System.out.println(task4);
-                    return;
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Что-то было введено неправильно! " +
-                            "Попробуйте снова.");
-                    return;
                 }
+                return;
             case 5:
-                try {
-                    Task task5 = new YearlyTask(taskName,
-                            taskDescription,
-                            taskType,
-                            taskDateTime);
+                Task task5 = new YearlyTask(taskName,
+                        taskDescription,
+                        taskType,
+                        taskDateTime);
+                if (tasks.containsValue(task5)) {
+                    System.out.println("Эта задача уже добавлена.");
+                } else {
                     this.tasks.put(task5.getId(), task5);
                     System.out.println("Задача успешно добавлена:");
                     System.out.println(task5);
-                    break;
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Что-то было введено неправильно! " +
-                            "Попробуйте снова.");
-                    break;
                 }
+                break;
         }
     }
 
     private static String inputTaskName(Scanner scanner) {
         System.out.print("Введите название задачи: ");
         String taskName = scanner.useDelimiter("\n").next();
-
-            return null;
-        } else {
-            System.out.println("Название: " + taskName);
-            return taskName;
-        }
+        return taskName;
     }
 
     private static String inputTaskDescription(Scanner scanner) {
         System.out.print("Введите описание задачи: ");
         String taskDescription = scanner.useDelimiter("\n").next();
-        if (taskDescription == null || taskDescription.isBlank()) {
-            System.out.println("Описание не может быть пустым! " +
-                    "Попробуйте снова.");
-            inputTaskDescription(scanner);
-        }
-        System.out.println("Описание: " + taskDescription);
         return taskDescription;
     }
 
@@ -207,16 +196,12 @@ public class Calendar {
                     System.out.println("Тип задачи: рабочая");
                     return Task.Type.WORK;
                 default:
-                    System.out.println("Введён неправильный символ! " +
-                            "Попробуйте снова.");
-                    inputTaskType(scanner);
+                    return null;
             }
         } else {
             scanner.next();
-            System.out.println("Введён неправильный символ! Попробуйте снова.");
-            inputTaskType(scanner);
+            return null;
         }
-        return null;
     }
 
     private static LocalDate inputDate(Scanner scanner) {
@@ -224,7 +209,6 @@ public class Calendar {
         LocalDate date;
         try {
             date = LocalDate.parse(scanner.next());
-            System.out.println("Дата задачи: " + date);
             return date;
         } catch (DateTimeParseException e) {
             return null;
@@ -233,16 +217,13 @@ public class Calendar {
 
     private static LocalTime inputTime(Scanner scanner) {
         System.out.print("Введите время задачи в формате чч:мм : ");
-        LocalTime time = null;
+        LocalTime time;
         try {
             time = LocalTime.parse(scanner.next());
-            System.out.println("Время задачи: " + time);
             return time;
         } catch (DateTimeParseException e) {
-            System.out.println("Неправильный ввод времени!");
-            inputTime(scanner);
+            return null;
         }
-        return time;
     }
 
     private static int inputRegularity(Scanner scanner) {
@@ -275,8 +256,7 @@ public class Calendar {
             System.out.println("Задача с данным id не найдена.");
         } else {
             scanner.next();
-            System.out.println("Введён неправильный символ! Попробуйте снова.");
-            removeTask(scanner);
+            System.out.println("Некорректно введён id!");
         }
     }
 
@@ -291,9 +271,17 @@ public class Calendar {
         if (tasksForDay.isEmpty()) {
             System.out.printf("На дату %s нет задач.\n", day);
         } else {
+            System.out.printf("На дату %s запланировано:\n", day);
             for (Task task : tasksForDay) {
                 System.out.println(task);
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Calendar{" +
+                "tasks=" + tasks +
+                '}';
     }
 }

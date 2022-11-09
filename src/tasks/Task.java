@@ -93,7 +93,10 @@ public abstract class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return Objects.equals(title, task.title) && Objects.equals(description, task.description) && type == task.type && Objects.equals(dateTime, task.dateTime);
+        return Objects.equals(title, task.title) &&
+                Objects.equals(description, task.description) &&
+                type == task.type &&
+                Objects.equals(dateTime, task.dateTime);
     }
 
     @Override

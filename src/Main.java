@@ -1,3 +1,6 @@
+import tasks.Task;
+import tasks.YearlyTask;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
