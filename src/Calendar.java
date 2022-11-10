@@ -39,7 +39,7 @@ public class Calendar {
     }
 
     private static void printMenu() {
-        System.out.printf("1. Добавить задачу\n" +
+        System.out.print("1. Добавить задачу\n" +
                 "2. Удалить задачу\n" +
                 "3. Получить задачу на указанный день\n" +
                 "0. Выход\n");
@@ -227,7 +227,7 @@ public class Calendar {
     }
 
     private static int inputRegularity(Scanner scanner) {
-        System.out.printf("Выберите повторяемость задачи:\n" +
+        System.out.print("Выберите повторяемость задачи:\n" +
                 "1 - однократная\n" +
                 "2 - ежедневная\n" +
                 "3 - еженедельная\n" +
@@ -262,6 +262,13 @@ public class Calendar {
 
     private void displayTasksForDay(Scanner scanner) {
         LocalDate day = inputDate(scanner);
+        while (day == null || day.isBefore(LocalDate.now())) {
+            System.out.println("Некорректно введена дата или " +
+                    "указанный день уже прошёл! " +
+                    "Попробуйте снова.");
+            day = inputDate(scanner);
+        }
+        System.out.println("Дата: " + day);
         Set<Task> tasksForDay = new TreeSet<>(new TaskTimeComparator());
         for (Task task : tasks.values()) {
             if (task.appearsIn(day)) {
@@ -272,16 +279,35 @@ public class Calendar {
             System.out.printf("На дату %s нет задач.\n", day);
         } else {
             System.out.printf("На дату %s запланировано:\n", day);
+            int i = 1;
             for (Task task : tasksForDay) {
-                System.out.println(task);
+                System.out.println(i + ") " + task);
+                i++;
             }
         }
     }
 
     @Override
     public String toString() {
-        return "Calendar{" +
-                "tasks=" + tasks +
-                '}';
+        Set<Task> calendarToString = new TreeSet<>(new TaskDateTimeComparator());
+        calendarToString.addAll(tasks.values());
+        StringBuilder sb = new StringBuilder();
+        for (Task task : calendarToString) {
+            sb.append(task).append('\n').append('\n');
+        }
+        return "Ежедневник содержит следующие задачи:\n" + sb;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Calendar calendar = (Calendar) o;
+        return Objects.equals(tasks, calendar.tasks);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tasks);
     }
 }

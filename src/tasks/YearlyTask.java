@@ -20,14 +20,7 @@ public class YearlyTask extends Task {
     }
 
     public LocalDateTime getNextDateTime() {
-        return nextDateTime;
-    }
-
-    @Override
-    public void displayNextDateTime() {
-        updateNextDateTime();
-        System.out.println("Следующая дата и время выполнения задачи - " +
-                getNextDateTime());
+        return updateNextDateTime();
     }
 
     private LocalDateTime updateNextDateTime() {
@@ -39,14 +32,23 @@ public class YearlyTask extends Task {
     }
 
     @Override
+    public void displayNextDateTime() {
+        System.out.println("Следующая дата и время выполнения задачи - " +
+                getNextDateTime());
+    }
+
+    @Override
     public boolean appearsIn(LocalDate date) {
-        return updateNextDateTime().toLocalDate().equals(date);
+        return (getDateTime().toLocalDate().equals(date) ||
+                getDateTime().toLocalDate().isBefore(date)) &&
+                date.getDayOfMonth() == nextDateTime.getDayOfMonth() &&
+                date.getMonth().equals(nextDateTime.getMonth());
     }
 
     @Override
     public String toString() {
         return "Ежегодная " + super.toString() +
-                "Следующая дата выполнения: " +
-                updateNextDateTime();
+                "\nСледующая дата выполнения: " +
+                getNextDateTime();
     }
 }

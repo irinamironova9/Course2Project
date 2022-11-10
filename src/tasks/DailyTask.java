@@ -2,9 +2,6 @@ package tasks;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.stream.Stream;
 
 public class DailyTask extends Task {
     private final String regularityType = "ежедневная";
@@ -23,14 +20,7 @@ public class DailyTask extends Task {
     }
 
     public LocalDateTime getNextDateTime() {
-        return nextDateTime;
-    }
-
-    @Override
-    public void displayNextDateTime() {
-        updateNextDateTime();
-        System.out.println("Следующая дата и время выполнения задачи - " +
-                    getNextDateTime());
+        return updateNextDateTime();
     }
 
     private LocalDateTime updateNextDateTime() {
@@ -42,17 +32,21 @@ public class DailyTask extends Task {
     }
 
     @Override
-    public boolean appearsIn(LocalDate date) {
-        nextDateTime = updateNextDateTime();
+    public void displayNextDateTime() {
+        System.out.println("Следующая дата и время выполнения задачи - " +
+                getNextDateTime());
+    }
 
-        return nextDateTime.toLocalDate().equals(date) ||
-                nextDateTime.toLocalDate().isAfter(LocalDate.now());
+    @Override
+    public boolean appearsIn(LocalDate date) {
+        return getDateTime().toLocalDate().equals(date) ||
+                getDateTime().toLocalDate().isBefore(date);
     }
 
     @Override
     public String toString() {
         return "Ежедневная " + super.toString() +
-                "Следующая дата выполнения: " +
-                updateNextDateTime();
+                "\nСледующая дата выполнения: " +
+                getNextDateTime();
     }
 }

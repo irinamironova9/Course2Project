@@ -80,7 +80,7 @@ public abstract class Task {
                         "Описание: %s\n" +
                         "Тип: %s\n" +
                         "Дата и время: %s\n" +
-                        "ID: %s\n",
+                        "ID: %s",
                 title,
                 description,
                 type,
